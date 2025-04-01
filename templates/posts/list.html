@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Posts - Golden Technology Inc.
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/post_list.css' %}">
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Poppins', sans-serif;
+        color: #2c3e50;
+    }
+    
+    .container {
+        max-width: 1100px;
+        margin: 50px auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #1a237e; /* Dark Navy Blue */
+        font-weight: bold;
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .card-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #1a237e; /* Golden Technology Blue */
+    }
+
+    .card-subtitle {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #444;
+        margin-top: 12px;
+    }
+
+    .card-link {
+        display: inline-block;
+        margin-top: 12px;
+        color: #f4b400; /* Gold Accent */
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .card-link:hover {
+        color: #d39e00;
+        text-decoration: underline;
+    }
+
+    .post-meta {
+        font-size: 13px;
+        color: #888;
+        margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .card {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Latest Articles & Insights</h1>
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="post-meta">By <strong>{{ post.author }}</strong> | {{ post.created_at|date:"F d, Y" }}</p>
+                        <p class="card-text">{{ post.content|truncatechars:120 }}</p>
+                        <a href="{% url 'post_detail' post.id %}" class="card-link">Read More →</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No posts available.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
